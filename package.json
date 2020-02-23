@@ -2,6 +2,7 @@
   "name": "territoire-bievre-map",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://lassos.regal.bio/map/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
@@ -10,8 +11,11 @@
     "@types/node": "^12.12.28",
     "@types/react": "^16.9.22",
     "@types/react-dom": "^16.9.5",
+    "@types/react-leaflet": "^2.5.0",
+    "leaflet": "^1.6.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-leaflet": "^2.6.1",
     "react-scripts": "3.4.0",
     "typescript": "^3.7.5"
   },
