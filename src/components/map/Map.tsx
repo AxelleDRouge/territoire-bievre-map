@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Map, TileLayer, Marker, Polygon } from 'react-leaflet';
+import { Map, TileLayer, Marker, Polygon, LayersControl } from 'react-leaflet';
 import IsochronePopup from '../popup/IsochronePopup';
 import { StoreContext } from '../../context/StoreContext';
+import { Result } from '../../props';
 
 const LMap: React.FC = () => {
     const { setLocations, isochroneResult } = useContext(StoreContext)
-    const [isochrone, setIsochrone] = useState<JSX.Element>()
+    const [isochrone, setIsochrone] = useState<JSX.Element[]>([])
 
     const CENTER = {
         lat: 48.7763,
@@ -13,8 +14,13 @@ const LMap: React.FC = () => {
     };
 
     useEffect(() => {
-        setLocations([[CENTER.lat, CENTER.lng]])
-        if (isochroneResult) setIsochrone(<Polygon positions={isochroneResult} />)
+        setLocations([[CENTER.lng, CENTER.lat]])
+        if (isochroneResult && isochroneResult.length > 0) {
+            isochroneResult.forEach((iso: Result, index: number) => {
+                const positions = iso.geometry.coordinates.map(value => value.map(latlng => [latlng[1], latlng[0]]))
+                setIsochrone(isochrone.concat(<Polygon key={index} positions={positions} color={"orange"} />))
+            })
+        } else setIsochrone([])
     }, [isochroneResult])
 
     return (
@@ -31,7 +37,6 @@ const LMap: React.FC = () => {
             <Marker position={[CENTER.lat, CENTER.lng]}>
                 <IsochronePopup />
             </Marker>
-
         </Map>
     )
 }

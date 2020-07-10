@@ -21,7 +21,7 @@ code {
 .header{
   display: flex;
   background-color: #308D43;
-  font-size: 2vmin;
+  font-size: 3vmin;
   font-family: 'Fira Sans';
   color: #E28707;
   text-shadow: 1px 1px 1px #333;
@@ -36,4 +36,28 @@ h1{
 .logo{
   align-self: left;
   height:10vh;
+}
+
+.popup {
+  height:max-content;
+  width:max-content;
+}
+.leaflet-popup-content{
+  width:inherit !important;
+}
+
+
+article {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  grid-column-gap: 2vmin;
+  padding: 1vmin;
+}
+
+button{
+  grid-column: 2;
+}
+
+.button--removeIsochrone{
+  z-index: 2000;
 }

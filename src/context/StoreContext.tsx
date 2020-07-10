@@ -16,17 +16,20 @@ export const StoreContextProvider: React.FC<PropTypes> = ({ children }: PropType
         name: "vélo"
     }
     const [profile, setProfile] = useState<Profile>(defaultProfile)
-    const [locations, setLocations] = useState<LatLng[][]>([[]])
+    const [locations, setLocations] = useState<number[][]>([[]])
     const [value, setValue] = useState<number>(100)
     const [type, setType] = useState<string>('time')
-    const [isochroneResult, setIsochroneResult] = useState<LatLng[][]>()
+    const [isochroneResult, setIsochroneResult] = useState<LatLng[][][]>([])
 
-    useEffect(() => {
+    const searchIsochrone = () => {
         const itinerary: Itinerary = {
+            attributes: ["area", "reachfactor"],
+            interval: 300,
             location_type: "start",
             locations: locations,
             range: [value],
-            range_type: type
+            range_type: type,
+            units: 'km'
         }
         const api = "5b3ce3597851110001cf62487a9daef655ed48d691737507e56cfb21"
         fetch(`https://api.openrouteservice.org/v2/isochrones/${profile.value}`, {
@@ -39,9 +42,11 @@ export const StoreContextProvider: React.FC<PropTypes> = ({ children }: PropType
             body: JSON.stringify(itinerary)
         }).then(result => result.json()
             .then(result => {
-                if (result.features) setIsochroneResult(result.features.geometry.coordinates)
+                if (result.features) {
+                    setIsochroneResult(isochroneResult.concat(result.features))
+                }
             }))
-    }, [locations, type, profile, value])
+    }
 
     const store = {
         profile,
@@ -50,8 +55,10 @@ export const StoreContextProvider: React.FC<PropTypes> = ({ children }: PropType
         setLocations,
         isochroneResult,
         setIsochroneResult,
+        type,
         setType,
-        setValue
+        setValue,
+        searchIsochrone
     }
 
     return (
