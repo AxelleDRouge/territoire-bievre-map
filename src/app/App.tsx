@@ -1,13 +1,16 @@
 import React from 'react';
-import LMap from './map/Map';
+import LMap from '../components/map/Map';
 import Header from './Header';
+import { StoreContext, StoreContextProvider } from '../context/StoreContext';
 
 function App() {
   return (
     <>
-      <Header/>
-      <LMap />
-      </>
+      <StoreContextProvider>
+        <Header />
+        <LMap />
+      </StoreContextProvider>
+    </>
   );
 }
 
